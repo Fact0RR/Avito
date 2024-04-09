@@ -1,0 +1,20 @@
+package middlewares
+
+import "net/http"
+
+func AdminMiddleWare(admin_token, user_token string, next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		current_token := r.Header.Get("token")
+
+		switch{
+		case admin_token == current_token:
+			next(w,r)
+		case user_token == current_token:
+			w.WriteHeader(http.StatusForbidden)
+			w.Write([]byte("Пользователь не имеет доступа"))
+		default:
+			w.WriteHeader(http.StatusUnauthorized)
+			w.Write([]byte("Пользователь не авторизован"))
+		}
+	}
+}
