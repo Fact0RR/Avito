@@ -1,6 +1,6 @@
 {
     "port":":8080",
-    "dataBaseString":"host=db dbname=avito_db sslmode=disable user=avito password=avito_pass",
+    "dataBaseString":"host=localhost dbname=avito_db sslmode=disable user=avito password=avito_pass",
     "token_admin":"token_for_admin_321",
     "token_user":"token_for_user_123",
     "log_level":"debug"
