@@ -13,7 +13,7 @@ var parametrsForAdmin []e.PValidate
 
 func (s *APIserver) configureRouter() {
 	setUserParms()
-	
+	setAdminParams()
 
 	router := mux.NewRouter()
 
@@ -30,9 +30,9 @@ func setUserParms(){
 	parametrsForUser = append(parametrsForUser,e.PValidate{Name: "use_last_revision", PType: "bool"})
 }
 
-func setAdmiParams(){
-	parametrsForUser = append(parametrsForUser,e.PValidate{Name: "tag_id", PType: "int"})
-	parametrsForUser = append(parametrsForUser,e.PValidate{Name: "feature_id", PType: "int"})
-	parametrsForUser = append(parametrsForUser,e.PValidate{Name: "limit", PType: "int"})
-	parametrsForUser = append(parametrsForUser,e.PValidate{Name: "offset", PType: "int"})
+func setAdminParams(){
+	parametrsForAdmin = append(parametrsForAdmin,e.PValidate{Name: "tag_id", PType: "int"})
+	parametrsForAdmin = append(parametrsForAdmin,e.PValidate{Name: "feature_id", PType: "int"})
+	parametrsForAdmin = append(parametrsForAdmin,e.PValidate{Name: "limit", PType: "int"})
+	parametrsForAdmin = append(parametrsForAdmin,e.PValidate{Name: "offset", PType: "int"})
 }

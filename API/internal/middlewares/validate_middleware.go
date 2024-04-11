@@ -6,7 +6,6 @@ import (
 	e "github.com/Fact0RR/AVITO/entity"
 )
 
-
 // req_qp_Arr := []string{"tag_id","feature_id"}
 // noReq_QP_Arr := []string{"use_last_revision","offset","limit"}
 func ValidateUserBannerMiddleware(pvsGlobal []e.PValidate, next http.HandlerFunc) http.HandlerFunc {
