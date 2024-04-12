@@ -40,14 +40,16 @@ func (s *Store) Open() error {
 		return err
 	}
 	s.DB = db
+
 	go s.startUpdateLocalData()
+
 	return nil
 }
 
 func (s *Store) startUpdateLocalData() {
 	for {
 		s.getAllDataAboutBannersToLocal()
-		time.Sleep(time.Second * 10)
+		time.Sleep(time.Minute * 5)
 	}
 
 }

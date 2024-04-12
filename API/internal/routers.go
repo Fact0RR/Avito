@@ -3,8 +3,8 @@ package internal
 import (
 	"net/http"
 
-	e "github.com/Fact0RR/AVITO/entity"
-	m "github.com/Fact0RR/AVITO/internal/middlewares"
+	e "github.com/Fact0RR/AVITO/API/entity"
+	m "github.com/Fact0RR/AVITO/API/internal/middlewares"
 	"github.com/gorilla/mux"
 )
 
@@ -14,12 +14,12 @@ var parametrsForAdmin []e.PValidate
 func (s *APIserver) configureRouter() {
 	setUserParms()
 	setAdminParams()
-
 	router := mux.NewRouter()
-
-	router.HandleFunc("/", HomeHandler).Methods(http.MethodGet)
-	router.HandleFunc("/user_banner", m.UserMiddleWare(s.Config.TokenAdmin, s.Config.TokenUser, m.ValidateUserBannerMiddleware(parametrsForUser,s.UserBannerHandler))).Methods(http.MethodGet)
-	router.HandleFunc("/banner",m.AdminMiddleWare(s.Config.TokenAdmin, s.Config.TokenUser,m.ValidateUserBannerMiddleware(parametrsForAdmin,s.BannerHandlerGet))).Methods(http.MethodGet)
+	router.HandleFunc("/user_banner", m.UserMiddleWare(s.Config.TokenAdmin, s.Config.TokenUser, m.ValidateBannerMiddleware(parametrsForUser,s.UserBannerHandler))).Methods(http.MethodGet)
+	router.HandleFunc("/banner",m.AdminMiddleWare(s.Config.TokenAdmin, s.Config.TokenUser,m.ValidateBannerMiddleware(parametrsForAdmin,s.BannerHandlerGet))).Methods(http.MethodGet)
+	router.HandleFunc("/banner",m.AdminMiddleWare(s.Config.TokenAdmin, s.Config.TokenUser,s.BannerHandlerPost)).Methods(http.MethodPost)
+	router.HandleFunc("/banner/{id:[0-9]+}",m.AdminMiddleWare(s.Config.TokenAdmin, s.Config.TokenUser,s.BannerIdHandlerPatch)).Methods(http.MethodPatch)
+	router.HandleFunc("/banner/{id:[0-9]+}",m.AdminMiddleWare(s.Config.TokenAdmin, s.Config.TokenUser,s.BannerIdHandlerDelete)).Methods(http.MethodDelete)
 
 	s.Router = router
 }

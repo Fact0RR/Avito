@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/Fact0RR/AVITO/config"
-	"github.com/Fact0RR/AVITO/internal/store"
+	"github.com/Fact0RR/AVITO/API/config"
+	"github.com/Fact0RR/AVITO/API/internal/store"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/sirupsen/logrus"
@@ -28,22 +28,27 @@ func New(config *config.Config) *APIserver {
 }
 
 func (s *APIserver) Start() error {
-
-	s.configureRouter()
-
-	//открываем соединение с бд
-	if err:= s.Store.Open();err != nil{
-		return err
-	}
-
-	
 	level,err := logrus.ParseLevel(s.Config.LogLevel)
 	if err != nil{
 		return err
 	}
 	s.Logger.SetLevel(level)
 
-	s.Logger.Info("Запуск сервера")
+	s.Logger.Info("Конфигурируем роутер")
 
-	return http.ListenAndServe(s.Config.Port, handlers.LoggingHandler(os.Stdout, s.Router))
+	s.configureRouter()
+
+	s.Logger.Info("открываем соединение с бд и запускаем горутину, которая скачивает данные из бд в ОЗУ раз в 5 мин")
+	
+	if err:= s.Store.Open();err != nil{
+		return err
+	}
+
+	if s.Config.LoggingHandler{
+
+		s.Logger.Info("Запуск сервера с логированием обработчиков")
+		return http.ListenAndServe(s.Config.Port, handlers.LoggingHandler(os.Stdout, s.Router))
+	}
+	s.Logger.Info("Сервер запущен без логирования обработчиков")
+	return http.ListenAndServe(s.Config.Port, s.Router)
 }

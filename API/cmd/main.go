@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"github.com/Fact0RR/AVITO/config"
-	"github.com/Fact0RR/AVITO/internal"
+	"github.com/Fact0RR/AVITO/API/config"
+	"github.com/Fact0RR/AVITO/API/internal"
 )
 
 func main() {

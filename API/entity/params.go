@@ -37,7 +37,7 @@ type AdminParams struct {
 	Limit      ExistInt
 }
 
-func (pv *PValidate) CheckRequired() bool {
+func (pv *PValidate) IsNoExistRequiredParametr() bool {
 	if pv.Required {
 		return pv.Exist
 	} else {
@@ -53,6 +53,8 @@ func (pv *PValidate) CheckType() bool {
 		return isStingConvertibleToInt(pv.Content)
 	case pv.PType == Pbool && pv.Exist:
 		return isStringConvertibleToBool(pv.Content)
+	case !pv.Required && !pv.Exist:
+		return true
 	}
 	return false
 }

@@ -1,6 +1,6 @@
 package store
 
-import "github.com/Fact0RR/AVITO/entity"
+import "github.com/Fact0RR/AVITO/API/entity"
 
 func (s *Store) GetUserBanner(tag_id, feature_id int) *entity.UserBanner {
 	ub := entity.UserBanner{}
@@ -27,37 +27,37 @@ func (s *Store) GetUserBannerFromDB(tag_id, feature_id int) *entity.UserBanner {
 	return &ub
 }
 
-func (s *Store) GetAdminBannerFromDB(query string) ([]entity.AdminBanner,error){
+func (s *Store) GetAdminBannerFromDB(query string) ([]entity.AdminBanner, error) {
 	abs := []entity.AdminBanner{}
-	rows,err := s.DB.Query(query)
-	if err != nil{
-		return nil,err
+	rows, err := s.DB.Query(query)
+	if err != nil {
+		return nil, err
 	}
 	defer rows.Close()
-	for rows.Next(){
-		ab:= entity.AdminBanner{}
-		err:= rows.Scan(&ab.Banner_id,&ab.Feature_id,&ab.UserBanner.Title,&ab.UserBanner.Text,&ab.UserBanner.Url,&ab.Is_active,&ab.Сreated_at,&ab.Updated_at)
-		if err != nil{
-			return nil,err
+	for rows.Next() {
+		ab := entity.AdminBanner{}
+		err := rows.Scan(&ab.Banner_id, &ab.Feature_id, &ab.UserBanner.Title, &ab.UserBanner.Text, &ab.UserBanner.Url, &ab.Is_active, &ab.Сreated_at, &ab.Updated_at)
+		if err != nil {
+			return nil, err
 		}
 		abs = append(abs, ab)
 	}
 
-	for i:=0;i<len(abs); i++{
-		rows,err := s.DB.Query("select tag_id from b_t where banner_id = $1", abs[i].Banner_id)
-		if err != nil{
-			return nil,err
+	for i := 0; i < len(abs); i++ {
+		rows, err := s.DB.Query("select tag_id from b_t where banner_id = $1", abs[i].Banner_id)
+		if err != nil {
+			return nil, err
 		}
 		defer rows.Close()
-		for rows.Next(){
-			var tag_id int 
-			err:= rows.Scan(&tag_id)
-			if err != nil{
-				return nil,err
+		for rows.Next() {
+			var tag_id int
+			err := rows.Scan(&tag_id)
+			if err != nil {
+				return nil, err
 			}
 			abs[i].Tag_ids = append(abs[i].Tag_ids, tag_id)
 		}
 	}
 
-	return abs,nil
+	return abs, nil
 }

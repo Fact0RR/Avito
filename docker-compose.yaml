@@ -23,13 +23,13 @@ services:
     ports:
       - "5432:5432"
 
-  main:
-   container_name: go_server
-   build: './API'
-   ports:
-     - "8080:8080"
-   depends_on:
-     - db
-   restart: always
+  # main:
+  #  container_name: go_server
+  #  build: './API'
+  #  ports:
+  #    - "8080:8080"
+  #  depends_on:
+  #    - db
+  #  restart: always
 
   

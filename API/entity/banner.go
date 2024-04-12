@@ -16,3 +16,24 @@ type AdminBanner struct{
 	Updated_at string `json:"updated_at"`
 
 }
+
+type PostBanner struct{
+	Tag_ids *[]int `json:"tag_ids"`
+	Feature_id *int `json:"feature_id"`
+	UserBanner *UserBanner `json:"content"`
+	Is_active *bool `json:"is_active"`
+} 
+
+func (pb *PostBanner) IsWithEmptyField()(string,bool){
+	switch {
+	case pb.Tag_ids == nil:
+		return "tag_idstag_ids",true
+	case pb.Feature_id == nil:
+		return "feature_id",true
+	case pb.UserBanner == nil:
+		return "content",true
+	case pb.Is_active == nil:
+		return "is_active",true
+	}
+	return "",false
+}

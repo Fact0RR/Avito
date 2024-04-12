@@ -13,11 +13,12 @@ type Config struct {
 	TokenAdmin					string `json:"token_admin"`
 	TokenUser					string `json:"token_user"`
 	LogLevel					string `json:"log_level"`
+	LoggingHandler				bool   `json:"log_handlers"`
 }
 
 func GetConfig() *Config {
 
-	content, err := os.ReadFile("config/config.json")
+	content, err := os.ReadFile("API/config/config.json")
 	if err != nil {
 		log.Fatal("Error when opening file: ", err)
 	}
