@@ -2,7 +2,7 @@ package internal_test
 
 import (
 	"testing"
-	e "github.com/Fact0RR/AVITO/API/entity"
+	e "github.com/Fact0RR/AVITO/entity"
 )
 
 func TestIsWithEmptyField(t *testing.T){

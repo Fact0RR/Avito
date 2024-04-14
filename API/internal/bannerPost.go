@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	e "github.com/Fact0RR/AVITO/API/entity"
+	e "github.com/Fact0RR/AVITO/entity"
 )
 
 

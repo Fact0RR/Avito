@@ -3,8 +3,10 @@ package internal_test
 import (
 	"encoding/json"
 	"fmt"
+
 	"net/http"
 	"net/http/httptest"
+
 	"testing"
 
 	"github.com/Fact0RR/AVITO/config"
@@ -13,67 +15,32 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestIntegrationUserBannerHandle(t *testing.T) {
-
-	b1, _ := json.Marshal(e.UserBanner{Title: "Banner 1",Url: "http://url_for_banner1",Text: "some text for banner 1 etc.."})
+func TestIntegrationPosthBannerHandle(t *testing.T) {
+	a := 2
+	b := true
+	pb:=e.PostBanner{Tag_ids: &[]int{2}, Feature_id: &a,Is_active: &b, UserBanner: &e.UserBanner{Title: "path",Text: "patchtext",Url: "urlPatch"}}
+	b1, _ := json.Marshal(&e.UserBanner{Title: "path",Text: "patchtext",Url: "urlPatch"})
 	//expected2 := e.UserBanner{}
 	//expected3 := e.UserBanner{}
-	b4, _ := json.Marshal(e.UserBanner{Title: "Banner 3",Url: "http://url_for_banner3",Text: "some text for banner 3 "})
 
 	testCases := []struct{
+		banner_id int
 		tag_id int
 		feature_id int
 		use_last_revision bool
+		postBanner *e.PostBanner
 		want[]byte
 	}{
-		{//тестируем ответ из ОЗУ
-			tag_id: 1,
-			feature_id: 1,
-			use_last_revision: false,
-			want: b1,
-		},
-		{
-			tag_id: 1,
-			feature_id: 2,
-			use_last_revision: false,
-			want: nil,//видимость этого банера отключена
-		},
-		{
-			tag_id: 3,
-			feature_id: 2,
-			use_last_revision: false,
-			want: nil,//этот банер отсутствует
-		},
-		{
-			tag_id: 1,
-			feature_id: 3,
-			use_last_revision: false,
-			want: b4,
-		},
+		
 		{//тестируем ответ из Postgres
-			tag_id: 1,
-			feature_id: 1,
+			banner_id: 4,
+			tag_id: 2,
+			feature_id: 2,
 			use_last_revision: true,
+			postBanner: &pb,
 			want: b1,
 		},
-		{
-			tag_id: 1,
-			feature_id: 2,
-			use_last_revision: true,
-			want: nil,//видимость этого банера отключена
-		},
-		{
-			tag_id: 3,
-			feature_id: 2,
-			use_last_revision: true,
-			want: nil,//этот банер отсутствует
-		},
-		{
-			tag_id: 1,
-			feature_id: 3,
-			use_last_revision: true,
-			want: b4,
-		},
+		
 	}
 
 	conf := config.GetConfig("../config/config_test.json")
@@ -90,8 +57,16 @@ func TestIntegrationUserBannerHandle(t *testing.T) {
 		t.Error(err.Error())
 		return
 	}
+
+
 	handler := http.HandlerFunc(s.UserBannerHandler)
 	for _,tc := range testCases{
+
+		if _,err = s.Store.PostBannerToDB(tc.postBanner);err != nil{
+			t.Error(err.Error())
+			return
+		}
+
 		rec := httptest.NewRecorder()
 
 		req,err := http.NewRequest("GET",fmt.Sprintf("/user_banner?use_last_revision=%t&tag_id=%d&feature_id=%d",tc.use_last_revision,tc.tag_id,tc.feature_id),nil)

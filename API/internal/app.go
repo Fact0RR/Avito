@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/Fact0RR/AVITO/API/config"
-	"github.com/Fact0RR/AVITO/API/internal/store"
+	"github.com/Fact0RR/AVITO/config"
+	"github.com/Fact0RR/AVITO/internal/store"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/sirupsen/logrus"

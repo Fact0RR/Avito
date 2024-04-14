@@ -1,6 +1,6 @@
 package store
 
-import "github.com/Fact0RR/AVITO/API/entity"
+import "github.com/Fact0RR/AVITO/entity"
 
 func (s *Store) GetUserBanner(tag_id, feature_id int) *entity.UserBanner {
 	ub := entity.UserBanner{}

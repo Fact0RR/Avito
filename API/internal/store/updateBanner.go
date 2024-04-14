@@ -2,7 +2,7 @@ package store
 
 import (
 
-	"github.com/Fact0RR/AVITO/API/entity"
+	"github.com/Fact0RR/AVITO/entity"
 	"github.com/lib/pq"
 )
 

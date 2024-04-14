@@ -50,3 +50,9 @@ begin
 
 end;
 $$;
+
+create index idx_b_t on b_t (banner_id,tag_id);
+
+create index idx_banner_feature on banners(feature_id)
+
+create index idx_banner_id on banners(id);

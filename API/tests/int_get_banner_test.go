@@ -9,10 +9,9 @@ import (
 	"sort"
 	"testing"
 
-
-	"github.com/Fact0RR/AVITO/API/config"
-	e "github.com/Fact0RR/AVITO/API/entity"
-	"github.com/Fact0RR/AVITO/API/internal"
+	"github.com/Fact0RR/AVITO/config"
+	e "github.com/Fact0RR/AVITO/entity"
+	"github.com/Fact0RR/AVITO/internal"
 )
 
 func TestIntegrationGetBannerHandle(t *testing.T) {

@@ -2,11 +2,12 @@ package internal
 
 import (
 	"encoding/json"
+	"math/rand"
 	"net/http"
 	"strconv"
+	"time"
 
-	e "github.com/Fact0RR/AVITO/API/entity"
-
+	e "github.com/Fact0RR/AVITO/entity"
 )
 
 func (s *APIserver) UserBannerHandler(w http.ResponseWriter, r *http.Request) {
@@ -51,4 +52,30 @@ func (s *APIserver) UserBannerHandler(w http.ResponseWriter, r *http.Request) {
 	s.Logger.Debugln("Успешная отправка списка баннеров")
 	w.Write(b)
 	w.WriteHeader(http.StatusOK)
+}
+
+func (s *APIserver) StressHandler(w http.ResponseWriter, r *http.Request){
+	banner := s.Store.GetUserBanner(randInt(1,4),randInt(1,4))
+		if *banner==(e.UserBanner{}){
+			s.Logger.Debugln("Баннеры с такими свойствами отсутствуют")
+			w.WriteHeader(http.StatusNotFound)
+			return
+		}
+	
+		b, err := json.Marshal(banner)
+		if err != nil {
+			//s.Logger.
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write(e.QuickErrToJson(err.Error()))
+			return
+		}
+		s.Logger.Debugln("Успешная отправка списка баннеров")
+		w.Write(b)
+		w.WriteHeader(http.StatusOK)
+}
+
+func randInt(a,b int)int{
+	rand.Seed(time.Now().UnixNano())
+	return a + rand.Intn(b-a+1)
 }

@@ -1,7 +1,7 @@
 package internal_test
 
 import (
-	e "github.com/Fact0RR/AVITO/API/entity"
+	e "github.com/Fact0RR/AVITO/entity"
 	"testing"
 )
 
