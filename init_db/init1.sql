@@ -22,7 +22,7 @@ CREATE TABLE BANNERS (
   create_time timestamp NOT NULL,
   update_time timestamp NOT NULL,
 
-  CONSTRAINT unique_feature UNIQUE (feature_id),
+  --CONSTRAINT unique_feature UNIQUE (feature_id),
   
   FOREIGN KEY (feature_id) REFERENCES FEATURES (id)
 );
