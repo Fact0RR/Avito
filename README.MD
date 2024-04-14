@@ -20,7 +20,7 @@ make test
 make integration_tests
 ```
 3. Проверка работоспособности тестовой базы данных  
-```
+
 ```Bash
 make ping_db
 ```
