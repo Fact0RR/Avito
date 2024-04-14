@@ -21,6 +21,8 @@ CREATE TABLE BANNERS (
   visible boolean NOT NULL,
   create_time timestamp NOT NULL,
   update_time timestamp NOT NULL,
+
+  CONSTRAINT unique_feature UNIQUE (feature_id),
   
   FOREIGN KEY (feature_id) REFERENCES FEATURES (id)
 );

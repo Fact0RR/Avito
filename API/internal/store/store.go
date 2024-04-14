@@ -2,6 +2,8 @@ package store
 
 import (
 	"database/sql"
+	"errors"
+	"strconv"
 	"sync"
 	"time"
 
@@ -32,13 +34,16 @@ func New(connection string) *Store {
 }
 
 func (s *Store) Open() error {
+	err := TryConnectToDB(15,*s.Connection)
+	if err != nil{
+		return err
+	}
+
 	db, err := sql.Open("postgres", *s.Connection)
 	if err != nil {
 		return err
 	}
-	if err := db.Ping(); err != nil {
-		return err
-	}
+	
 	s.DB = db
 
 	go s.startUpdateLocalData()
@@ -47,13 +52,35 @@ func (s *Store) Open() error {
 }
 
 func (s *Store) startUpdateLocalData() {
+	s.GetAllDataAboutBannersToLocal()
 	for {
-		s.getAllDataAboutBannersToLocal()
 		time.Sleep(time.Minute * 5)
+		s.GetAllDataAboutBannersToLocal()
 	}
 
 }
 
 func (s *Store) Close() {
 	s.DB.Close()
+}
+
+func TryConnectToDB(waitTime int,urlConn string)error{
+	start := time.Now()
+	for{
+		duration := time.Since(start)
+		if duration.Seconds() > float64(waitTime) {
+			return errors.New(("Не удается подключиться к бд (время ожидания "+strconv.Itoa(int(duration.Seconds()))+" секунд)"))
+		}
+		db, err := sql.Open("postgres", urlConn)
+		if err != nil {
+			time.Sleep(time.Millisecond*200)
+			continue
+		}
+		if err := db.Ping(); err != nil {
+			time.Sleep(time.Millisecond*200)
+			continue
+		}
+		break
+	}
+	return nil
 }

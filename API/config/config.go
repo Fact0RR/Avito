@@ -16,9 +16,9 @@ type Config struct {
 	LoggingHandler				bool   `json:"log_handlers"`
 }
 
-func GetConfig() *Config {
+func GetConfig(path string) *Config {
 
-	content, err := os.ReadFile("API/config/config.json")
+	content, err := os.ReadFile(path)
 	if err != nil {
 		log.Fatal("Error when opening file: ", err)
 	}

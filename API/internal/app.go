@@ -1,8 +1,11 @@
 package internal
 
 import (
+	"errors"
 	"net/http"
 	"os"
+	"strconv"
+	"time"
 
 	"github.com/Fact0RR/AVITO/API/config"
 	"github.com/Fact0RR/AVITO/API/internal/store"
@@ -51,4 +54,21 @@ func (s *APIserver) Start() error {
 	}
 	s.Logger.Info("Сервер запущен без логирования обработчиков")
 	return http.ListenAndServe(s.Config.Port, s.Router)
+}
+
+func (s *APIserver) TryConnectToServer(maxWaitTime int,urlConn string)error{
+	start := time.Now()
+	for{
+		duration := time.Since(start)
+		if duration.Seconds() > float64(maxWaitTime) {
+			return errors.New(("Не удается подключиться к серверу (время ожидания "+strconv.Itoa(int(duration.Seconds()))+" секунд)"))
+		}
+		_, err := http.Get(urlConn)
+		if err != nil {
+			time.Sleep(time.Millisecond*200)
+			continue
+		}
+		break
+	}
+	return nil
 }

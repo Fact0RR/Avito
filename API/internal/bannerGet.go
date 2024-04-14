@@ -37,7 +37,7 @@ func (s *APIserver) BannerHandlerGet(w http.ResponseWriter, r *http.Request) {
 	switch {
 	case !p.Tag_id.Exist && !p.Feature_id.Exist:
 		s.Logger.Debugln("Нет tag_id и feature_id")
-		limit,offset := getQueryLimitAndOffset(p.Limit,p.Offset)
+		limit,offset := GetQueryLimitAndOffset(p.Limit,p.Offset)
 		query := "select b.id,b.feature_id, b.title, b.text, b.url, b.visible, b.create_time, b.update_time from banners b join b_t on b_t.banner_id = b.id "+limit+" "+offset
 
 		absl,err := s.Store.GetAdminBannerFromDB(query)
@@ -51,7 +51,7 @@ func (s *APIserver) BannerHandlerGet(w http.ResponseWriter, r *http.Request) {
 		abs = absl
 	case p.Tag_id.Exist && !p.Feature_id.Exist:
 		s.Logger.Debugln("Есть tag_id и нет feature_id")
-		limit,offset := getQueryLimitAndOffset(p.Limit,p.Offset)
+		limit,offset := GetQueryLimitAndOffset(p.Limit,p.Offset)
 		query := "select b.id, b.feature_id, b.title, b.text, b.url, b.visible, b.create_time, b.update_time from banners b join b_t on b_t.banner_id = b.id where b_t.tag_id = "+strconv.Itoa(p.Tag_id.Int)+" "+limit+" "+offset
 
 		absl,err := s.Store.GetAdminBannerFromDB(query)
@@ -66,7 +66,7 @@ func (s *APIserver) BannerHandlerGet(w http.ResponseWriter, r *http.Request) {
 		abs = absl
 	case !p.Tag_id.Exist && p.Feature_id.Exist:
 		s.Logger.Debugln("Нет tag_id, но есть feature_id")
-		limit,offset := getQueryLimitAndOffset(p.Limit,p.Offset)
+		limit,offset := GetQueryLimitAndOffset(p.Limit,p.Offset)
 		query := "select b.id,b.feature_id, b.title, b.text, b.url, b.visible, b.create_time, b.update_time from banners b where  b.feature_id = "+strconv.Itoa(p.Feature_id.Int)+" "+limit+" "+offset
 
 		absl,err := s.Store.GetAdminBannerFromDB(query)
@@ -84,7 +84,7 @@ func (s *APIserver) BannerHandlerGet(w http.ResponseWriter, r *http.Request) {
 
 		s.Logger.Debugln("Есть tag_id и feature_id")
 
-		limit,offset := getQueryLimitAndOffset(p.Limit,p.Offset)
+		limit,offset := GetQueryLimitAndOffset(p.Limit,p.Offset)
 		query := "select b.id,b.feature_id, b.title, b.text, b.url, b.visible, b.create_time, b.update_time from banners b join b_t on b_t.banner_id = b.id where b_t.tag_id = "+strconv.Itoa(p.Tag_id.Int)+" and b.feature_id = "+strconv.Itoa(p.Feature_id.Int)+" "+limit+" "+offset
 
 		s.Logger.Debugln("Запрос в бд на получение баннеров")
@@ -121,7 +121,7 @@ func (s *APIserver) BannerHandlerGet(w http.ResponseWriter, r *http.Request) {
 }
 
 
-func getQueryLimitAndOffset(lim,off e.ExistInt)(string,string){
+func GetQueryLimitAndOffset(lim,off e.ExistInt)(string,string){
 	switch{
 	case !lim.Exist && !off.Exist:
 		return "",""

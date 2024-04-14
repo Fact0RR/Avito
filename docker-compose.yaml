@@ -1,12 +1,6 @@
 version: "3.5"
 
 services:
-  
-  #photo:
-  #  container_name: photo_server
-  #  build: './DownloadploadPhotoServer'
-  #  ports:
-  #    - "8181:8181"
 
   db:
     container_name: db_postgres_container
@@ -22,6 +16,21 @@ services:
       - ./init_db/:/docker-entrypoint-initdb.d
     ports:
       - "5432:5432"
+
+  db_test:
+    container_name: db_test_postgres_container
+    image: postgres:13.3
+    restart: always
+    environment:
+      POSTGRES_USER: avito
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: test_db
+      POSTGRES_INITDB_ARGS: '--encoding=UTF-8 --lc-collate=C --lc-ctype=C'
+    volumes:
+     # - ./data/db:/var/lib/postgresql/data
+      - ./init_db/:/docker-entrypoint-initdb.d
+    ports:
+      - "6000:5432"
 
   # main:
   #  container_name: go_server

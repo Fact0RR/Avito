@@ -9,7 +9,7 @@ import (
 
 func main() {
 
-	conf := config.GetConfig()
+	conf := config.GetConfig("API/config/config.json")
 	s:=internal.New(conf)
 	if err:=s.Start();err!=nil{
 		log.Fatal(err)

@@ -42,7 +42,7 @@ type AllBannersData struct{
 	TagsRefOnBannersMap map[int][]int
 }
 
-func(s *Store) getAllDataAboutBannersToLocal() {
+func(s *Store) GetAllDataAboutBannersToLocal() {
 	wg := sync.WaitGroup{}
 	wg.Add(4)
 	go func(){
@@ -75,7 +75,7 @@ func(s *Store) getAllDataAboutBannersToLocal() {
 func (s *Store) setAllBanners(){
 	rows, err := s.DB.Query("select * from Banners")
     if err != nil {
-        panic(err.Error())
+        panic("Banners error:  -=-=-=-="+err.Error())
     }
 	defer rows.Close()
 	for rows.Next(){
@@ -93,7 +93,7 @@ func (s *Store) setAllBanners(){
 func (s *Store) setAllTags(){
 	rows, err := s.DB.Query("select * from Tags")
     if err != nil {
-        panic(err.Error())
+        panic("Tags error:  -=-=-=-="+err.Error())
     }
 	defer rows.Close()
 	for rows.Next(){
@@ -111,7 +111,7 @@ func (s *Store) setAllTags(){
 func (s *Store) setAllFeatures(){
 	rows, err := s.DB.Query("select * from Features")
     if err != nil {
-        panic(err.Error())
+        panic("Features error:  -=-=-=-="+err.Error())
     }
 	defer rows.Close()
 	for rows.Next(){
@@ -129,7 +129,7 @@ func (s *Store) setAllFeatures(){
 func (s *Store) setAllB_T(){
 	rows, err := s.DB.Query("select * from B_T")
     if err != nil {
-        panic(err.Error())
+        panic("B_t error  "+err.Error())
     }
 	defer rows.Close()
 	for rows.Next(){

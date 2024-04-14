@@ -4,7 +4,8 @@
 INSERT INTO FEATURES(name, description) VALUES 
   ('Feature 1', 'Description of Feature 1'),
   ('Feature 2', 'Description of Feature 2'),
-  ('Feature 3', 'Description of Feature 3');
+  ('Feature 3', 'Description of Feature 3'),
+  ('Feature 4', 'Free feature, for patch/post banner 4');
 
 -- Вставка данных в таблицу TAGS
 INSERT INTO TAGS(name, description) VALUES 
