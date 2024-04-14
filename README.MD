@@ -25,10 +25,10 @@ ping_db:
 ```Bash
 make ping_db
 ```
-4. Скриншоты Postman
+4. Скриншоты Postman  
 [Гугл диск](https://drive.google.com/drive/folders/1OYDp_z9vJ4M13DVQvdy8i6OcaRRbcGQu?usp=sharing)
 5. Нагрузочное тестирование утилитой bombardier
-[Git hub утилита](https://github.com/codesenberg/bombardier)  
+[GitHub](https://github.com/codesenberg/bombardier)  
 [Скриншот теста](https://drive.google.com/drive/folders/1y2ierL6WCeaFBl3Eg1ndxzNJgptJSvOt?usp=sharing)
 ## <a>Стек </a>
 <div align="center">
